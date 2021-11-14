@@ -55,7 +55,7 @@ class ViewController: UIViewController {
             switch result {
             case .success(let dog):
                 guard let dogUwrapped = self?.dogImageView else {return}
-                UIView.transition(with: dogUwrapped, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                UIView.transition(with: dogUwrapped, duration: 0.5, options: .transitionFlipFromRight, animations: {
                     dogUwrapped.downloadImage(dog.message)
                 }, completion: nil)
             case .failure(let error):
