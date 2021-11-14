@@ -1,8 +1,10 @@
 # Challenge2_ImagemCachorro
 ## Desafio 2 
-Esse simples app, carrega uma imagem aleatória da [api de cruzamentos da dog.ceo](https://dog.ceo/) e apresenta em uma UIImageView, entretanto há um problema a ser resolvido e uma funcionalidade para ser desenvolvida.
 
-Desafios:
-- Corrigir o defeito que está ocorrendo
-- Adicionar a funcionalidade de apresentar outra imagem quando tocar o botão
-- Faça melhorias, mude o layout, adicione alguma nova funcionalidade.
+Adicionados: 
+
+A thread DispatchQueue para atualizar os componetnesa da interface.
+Arredondamento do botão new dog e o recurso transition para dar um efeito flip na exibição da imagem seguinte.
+
+
+Imagens aleatórias de cachorros/Estudos-API
