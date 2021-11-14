@@ -15,27 +15,20 @@ enum DogError: Error {
 }
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var dogImageView: UIImageView!
     
-    
+    @IBAction func newDog(_ sender: Any) {
+        self.getDogImage()
+    }
     
     let urlDefault = "https://dog.ceo/api/breeds/image/random"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        requestDogImage { [weak self] result in
-            switch result {
-            case .success(let dog):
-                self?.dogImageView.downloadImage(dog.message)
-            case .failure(let error):
-                print(error)
-            }
-        }
-        
+        self.getDogImage()
     }
-
+    
     func requestDogImage(completion: @escaping(Result<DogImage, DogError>) -> Void) {
         let session = URLSession.shared
         guard let url = URL(string: urlDefault) else { return }
@@ -56,8 +49,22 @@ class ViewController: UIViewController {
             }
         }.resume()
     }
-}
     
+    func getDogImage() {
+        requestDogImage { [weak self] result in
+            switch result {
+            case .success(let dog):
+                guard let dogUwrapped = self?.dogImageView else {return}
+                UIView.transition(with: dogUwrapped, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                    dogUwrapped.downloadImage(dog.message)
+                }, completion: nil)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+}
 
 extension UIImageView {
     func downloadImage(_ url: String) {
@@ -68,13 +75,16 @@ extension UIImageView {
         
         session.dataTask(with: url) { [weak self] data, _, _ in
             guard let data = data else { return }
-            let image = UIImage(data: data)
-            self?.image = image
+            DispatchQueue.main.sync {
+                let image = UIImage(data: data)
+                self?.image = image
+            }
         }.resume()
-        
     }
+
 }
 
 class DogImage: Codable {
     let message: String
 }
+
